@@ -1,0 +1,7 @@
+{
+    "eslint.run": "onSave",
+    "files.autoSave": "onFocusChange",
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+    }
+}

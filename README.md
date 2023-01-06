@@ -1,2 +1,1 @@
-# myjs
-javascript script
+# js脚本

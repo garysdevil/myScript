@@ -1,0 +1,32 @@
+import contentHash from 'content-hash';
+
+//
+const getZksyncContentHashByCid = (cid) => {
+    const contentH_1 = contentHash.fromIpfs(cid);
+    // const ipfsHash = contentHash.decode(contentH_1)
+    // console.log(ipfsHash == cid);
+    const contentH = `0x${contentH_1.slice(contentH_1.length - 64, contentH_1.length + 1)}`; // 获取zksync长度的 contentHash
+    return JSON.stringify({ contentH });
+};
+
+const randomNum = (maxNum) =>
+    // 随机数
+    // const random = Math.random();  // 小于1的随机数
+    // const random_1 = random.toFixed(5); // 取5位小数，并且转为字符串
+    // eslint-disable-next-line implicit-arrow-linebreak
+    Math.floor(Math.random() * maxNum + 1); // 取1到 maxNum 的随机数
+
+// 示范 await delay(1000); // 等待1秒
+// eslint-disable-next-line no-promise-executor-return
+const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
+
+export { getZksyncContentHashByCid, delay, randomNum };
+
+// const test = async () => {
+//     const cid = 'Qmc4g6TMc8CpjhQh3XPpc4ozPCF9viQNcyoDFU42PdZ6Zh';
+//     getZksyncContentHashByCid(cid);
+// };
+
+// (async () => {
+//     await test();
+// })();
