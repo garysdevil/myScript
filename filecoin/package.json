@@ -1,0 +1,16 @@
+{
+  "type": "module",
+  "dependencies": {
+    "filecoin.js": "^0.0.5-alpha",
+    "init": "^0.1.2"
+  },
+  "name": "filecoin",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "gary",
+  "license": "ISC",
+  "description": ""
+}
