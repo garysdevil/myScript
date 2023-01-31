@@ -1,6 +1,7 @@
 import fs from 'fs';
 import ini from 'ini';
 import { HttpJsonRpcConnector, MnemonicWalletProvider, LotusClient } from 'filecoin.js';
+import {varIDTop1000Arr, varTipSetArr} from './var.js';
 
 
 const config = ini.parse(fs.readFileSync('.local.config.ini', 'utf-8'));
@@ -94,7 +95,7 @@ const a1 = async () => {
     // const actor = await connector.miner.getBaseInfo('f01372569', 2556360, tipSetKey); //state.getActor('f01372569');
    
 }
-const balanceStatitic = async () => {
+const getAllActorBalance = async () => {
 
     const tipSetKey = [{'/': "bafy2bzacecnamqgqmifpluoeldx7zzglxcljo6oja4vrmtj7432rphldpdmm2"}] // 区块0
     // const tipSetKey = [{'/': "bafy2bzaceajzynaaeg7o7hkzyei547a44uf3etmrpnwwc64e7644mvh6pbedi"}] // 2554678
@@ -104,6 +105,7 @@ const balanceStatitic = async () => {
     console.log(actors);
 
     let totalBalance = 0;
+    // 串联，查询
     // for (let i = 0; i < actors.length; i++) {
     //     let id = actors[i];
     //     const actor = await connector.state.getActor(id);
@@ -114,7 +116,12 @@ const balanceStatitic = async () => {
     //         console.log(id + "  " + balance);
     //     }   
     // }
-    for (let i = 100; i <= actors.length; i){
+    // 100个并发为一组，查询
+    while (actors.length > 0){
+        let i = 100
+        if ( actors.length < 100 ){
+            i = 0;
+        }
         console.log(actors.length)
         let actorsArr = actors.splice(actors.length - i);
         await Promise.all(await actorsArr.map(async (id) => {
@@ -129,12 +136,37 @@ const balanceStatitic = async () => {
     }
 
     console.log(totalBalance);
-
-
 }
 
+const getSomeActorBalance = async () => {
+    let totalBalance = 0;
+    for (let i = 0; i < varIDTop1000Arr.length; i++){
+        const id = varIDTop1000Arr[i];
+        const tipSetKey = [{'/': "bafy2bzacedhy76xl22ontdtv7bo2ytu3ae646bb4ktqwg5xe77toimnid73ty"}]
+        // const tipSetKey = varTipSetArr[0];
+        const actor = await connector.state.getActor(id, tipSetKey).catch((e) => {
+            // console.log(e);
+        });
+
+        if (actor == null){
+            continue;
+        }
+
+        const balanceStr = actor.Balance;
+        const balance = balanceStr.substring(0, balanceStr.length - 18) * 1;
+        console.log(balance);
+        totalBalance += balance;
+    }
+    console.log(totalBalance);
+    
+}
+
+
 (async () => {
-    await balanceStatitic();
+    // await balanceStatitic();
+    // await getInitBalance();
+
+    await getSomeActorBalance();
 
 })().then().catch();
 
@@ -149,5 +181,21 @@ const balanceStatitic = async () => {
 // 
 
 // Record
-// 2300000 bafy2bzacebq6j7k7n6ztzhai3gvkts3haxp3nowgvw735lmvplc7pxx4m5a46
-// 2400000 bafy2bzacedo3mozgiebadi3onogbgzrvuix2pbvxcege4uwroo3aypkohm2bm
+// 28天出的块高 80640
+// 29天出的块高 83520
+// 30天出的块高 86400
+// 31天出的块高 89280
+// 2557680  2023-01-30 08:00:00 bafy2bzacebbyaialqmyzbhsqer34h5qxez2kv5ucej3ara5rvlitmzhlyvqce
+// 2474160  2023-01-01 08:00:00 bafy2bzacebc4cbnmtml5spegjzoqkcyjphjdvhqz354qh5gpkvl45mihms2fs
+// 2384880  2022-12-01 08:00:00 bafy2bzacec4wvnyfb77wyd6cwlqtathwaslrt7fky22yrvsyisink4kokmkhm
+// 2298480  2022-11-01 08:00:00 bafy2bzaceb6iadeod46q35tz2gekv6lc5do63bqdutc3ngt3pigcuxcl6bthi
+// 2209200  2022-10-01 08:00:00 bafy2bzacedj7o65vfnverobzt352hils3lf5f6faxk7x7di54by72vsla47wu
+// 2122800  2022-09-01 08:00:00 bafy2bzaceanpybku5z2lzehievuwwazmzmnqwtwocfqvosexnnxejsrvmilhe
+// 2033520  2022-08-01 08:00:00 bafy2bzacebfb5stp46fbebiggkgvptutf3mzjl2y6vneprb5abejc43vnqrlg
+// 1944240  2022-07-01 08:00:00 bafy2bzacecycpyvhsc6qmmsxrebmknenkkxwj3uwezlsmtncna7vgnzlgy7mm
+// 1857840  2022-06-01 08:00:00 bafy2bzacecs7btc7l2x2335k74b7kh3pmleym3gnppp6x5psltoxcnmp53af6
+// 1768560  2022-05-01 08:00:00 bafy2bzacedcl4dsfa4yuyvf3rjbwezitm464tfwzb5aw4i46kqmx4r36sysxw
+// 1682160  2022-04-01 08:00:00 bafy2bzacedjf4aqxxsnrp6tqsc6tssphft7agukvrx574bsjcigddyjcl26vy
+// 1592880  2022-03-01 08:00:00 bafy2bzacecw6pnmueggfj3qs27ypz2yh3lyo3z2n3n7wkzk5fjbwrwxbwxx7o
+// 1509360  2022-02-01 08:00:00 bafy2bzacedhy76xl22ontdtv7bo2ytu3ae646bb4ktqwg5xe77toimnid73ty
+// 1422960  2022-01-01 08:00:00 bafy2bzaced4ovprspwl4q3kttmodtd7lxth26fmsmzybhkpdjbvrm5xn5x4wg
