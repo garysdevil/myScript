@@ -56,16 +56,11 @@ const getInitBalance = async () => {
     console.log(totalBalance);
 }
 
-const a1 = async () => {
-    // Infro服务无法执行这个功能 获取miner的信息
-    // const headTipset = await connector.chain.getHead();
-    // const tipsetHeight = headTipset.Blocks[0].Height;
-    // console.log(headTipset.Cids[0]);
-    // const minerInfo = await connector.miner.getBaseInfo('f0123261', tipsetHeight-2, [headTipset.Cids[0]]);
-    // console.log(minerInfo);
-
+const vmCirculatingSupply = async () => {
+    // const tipSetKey = [{'/': "bafy2bzacecul4772bjdkhugts7gsa2fywls63iseapexcdcvvwp37yo5kfiiy"}]
+    const tipSetKey = [{'/': "bafy2bzacedeukbb27f37awxpf4pqvrdjxuqmhffdw4zbvemrlvwn4m3tufl6m"}] // 2月6日 8点
     // 供应量
-    const supplyStatistic = await connector.state.vmCirculatingSupply();
+    const supplyStatistic = await connector.state.vmCirculatingSupply(tipSetKey);
     // console.log(supplyStatistic);
     const filVested = supplyStatistic.FilVested.substring(0, supplyStatistic.FilVested.length - 18) * 1;
     const filMined = supplyStatistic.FilMined.substring(0, supplyStatistic.FilMined.length - 18) * 1;
@@ -73,8 +68,19 @@ const a1 = async () => {
     const filLocked = supplyStatistic.FilLocked.substring(0, supplyStatistic.FilLocked.length - 18) * 1;
     const filCirculating = supplyStatistic.FilCirculating.substring(0, supplyStatistic.FilCirculating.length - 18) * 1;
     const filReserveDisbursed = supplyStatistic.FilReserveDisbursed.substring(0, supplyStatistic.FilReserveDisbursed.length - 18) * 1;
-    console.log(filVested + filMined + filBurnt + filLocked + filCirculating + filReserveDisbursed);
     console.log({filVested, filMined, filBurnt, filLocked, filCirculating, filReserveDisbursed});
+
+    console.log(filVested + filMined - filBurnt - filLocked + filReserveDisbursed);
+
+}
+
+const a1 = async () => {
+    // Infro服务无法执行这个功能 获取miner的信息
+    // const headTipset = await connector.chain.getHead();
+    // const tipsetHeight = headTipset.Blocks[0].Height;
+    // console.log(headTipset.Cids[0]);
+    // const minerInfo = await connector.miner.getBaseInfo('f0123261', tipsetHeight-2, [headTipset.Cids[0]]);
+    // console.log(minerInfo);
 
     // 通过块高输出tipSet和时间
     // const res = await connector.chain.getTipSetByHeight(2400000);
@@ -166,7 +172,9 @@ const getSomeActorBalance = async () => {
     // await balanceStatitic();
     // await getInitBalance();
 
-    await getSomeActorBalance();
+    // await getSomeActorBalance();
+
+    await vmCirculatingSupply();
 
 })().then().catch();
 
