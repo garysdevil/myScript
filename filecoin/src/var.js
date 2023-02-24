@@ -1018,7 +1018,6 @@ const varTipSetArr = [
     [{'/': "bafy2bzacebc4cbnmtml5spegjzoqkcyjphjdvhqz354qh5gpkvl45mihms2fs"}],
     [{'/': "bafy2bzacebbyaialqmyzbhsqer34h5qxez2kv5ucej3ara5rvlitmzhlyvqce"}],
 ]
-
 // UTC+8
 // 0        2020-08-25 06:00:00 bafy2bzacecnamqgqmifpluoeldx7zzglxcljo6oja4vrmtj7432rphldpdmm2
 // 1422960  2022-01-01 08:00:00 bafy2bzaced4ovprspwl4q3kttmodtd7lxth26fmsmzybhkpdjbvrm5xn5x4wg
@@ -1035,6 +1034,9 @@ const varTipSetArr = [
 // 2384880  2022-12-01 08:00:00 bafy2bzacec4wvnyfb77wyd6cwlqtathwaslrt7fky22yrvsyisink4kokmkhm
 // 2474160  2023-01-01 08:00:00 bafy2bzacebc4cbnmtml5spegjzoqkcyjphjdvhqz354qh5gpkvl45mihms2fs
 // 2557680  2023-01-30 08:00:00 bafy2bzacebbyaialqmyzbhsqer34h5qxez2kv5ucej3ara5rvlitmzhlyvqce
-
+// 28天出的块高数量 80640
+// 29天出的块高数量 83520
+// 30天出的块高数量 86400
+// 31天出的块高数量 89280
 
 export {varIDTop1000Arr, varTipSetArr};

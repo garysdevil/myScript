@@ -1,22 +1,9 @@
-import axios from 'axios';
 import xlsx from 'node-xlsx';
 import fs from 'fs';
 import {varIDTop1000Arr} from './var.js';
-import {sendPostRequest} from './utils/request.js';
+import {sendPostRequest} from '../utils/request.js';
 
-// var excelData = [
-//     [
-//         'id',
-//         new Date('2022-08-10T06:46:30.000Z'),
-//     ],
-//     [
-//         'f02',
-//         22
-//     ]
-// ];
-
-
-// 返回两个数组
+// 返回 {[ID,ID],[balance,balance]}
 const getBalanceArrById = async (userID) => {
     const url = 'https://api.filscan.io:8700/rpc/v1';
     const postData = {
@@ -52,6 +39,7 @@ const getBalanceArrById = async (userID) => {
     return {arrName, arrBalance};
 }
 
+// 操作excel，写入
 const operateExcel = async (filePath, sheetName, excelData) => {
     const buffer = xlsx.build([{name: sheetName, data: excelData}], {}); // Returns a buffer
     // 写入文件
