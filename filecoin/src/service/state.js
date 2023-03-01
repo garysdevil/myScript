@@ -22,7 +22,6 @@ const addNetworkPowerService = async () => {
     const totalRawBytePowerN = BigInt(totalRawBytePower)
     const totalQualityAdjPowerN = BigInt(totalQualityAdjPower)
     const validDataPowerN = totalQualityAdjPowerN - totalRawBytePowerN
-    // const validDataN = validDataPowerN/10n;
 
     const obj = {
         miner_count: minerCount, block_height: blockHeight, raw_power: totalRawBytePowerN, valid_power: validDataPowerN, total_power: totalQualityAdjPowerN
