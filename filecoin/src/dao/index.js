@@ -1,8 +1,7 @@
-// const networkDao = require('./networkDao');
-import * as networkDao from './networkDao.js';
+import * as networkPowerDao from './networkPowerDao.js';
 
 
 // module.exports = {
-//     networkDao
+//     networkPowerDao
 // }
-export default networkDao;
+export default networkPowerDao;
