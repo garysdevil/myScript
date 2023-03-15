@@ -14,6 +14,11 @@ const Knex = knex({
     pool: { min: 3, max: 50 },
 });
 
+const destroyKnex = () => {
+    Knex.destroy();
+}
+
 export {
-    Knex
+    Knex,
+    destroyKnex
 }

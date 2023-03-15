@@ -3,7 +3,7 @@
 import fs from 'fs';
 import ini from 'ini';
 import { HttpJsonRpcConnector, LotusClient } from 'filecoin.js';
-import networkPowerDao  from '../dao/index.js';
+import { networkPowerDao }  from '../dao/index.js';
 
 const config = ini.parse(fs.readFileSync('../config/.local.config.ini', 'utf-8'));
 const url = config.filecoin_rpc_url;
@@ -30,8 +30,8 @@ const addNetworkPowerService = async () => {
     };
     
     console.log(obj);
-    // const num = await networkPowerDao.add(obj);
-    // return num;
+    const num = await networkPowerDao.add(obj);
+    return num;
 }
 
 export {

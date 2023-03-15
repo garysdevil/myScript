@@ -1,6 +1,7 @@
 // 循环定时获取全网算力，写入数据库
 
 import {addNetworkPowerService}  from '../service/state.js';
+import {destroyKnex}  from '../dao/knex.js';
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(() => resolve(), ms));
@@ -9,7 +10,8 @@ function sleep(ms) {
 
 (async () => {
     await addNetworkPowerService();
-    console.log(i, new Date().toLocaleString());
+    console.log(new Date().toLocaleString());
+    destroyKnex();
 
     // let i = 1;
     // while (1) {
