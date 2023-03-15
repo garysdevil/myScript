@@ -8,12 +8,16 @@ function sleep(ms) {
 
 
 (async () => {
-    let i = 1;
-    while (1) {
-        await addNetworkPowerService();
-        console.log(i);
-        i = i+1;
-        await sleep(600000); // 10 分钟
-    }
+    await addNetworkPowerService();
+    console.log(i, new Date().toLocaleString());
+
+    // let i = 1;
+    // while (1) {
+    //     await addNetworkPowerService();
+    //     console.log(i, new Date().toLocaleString());
+    //     i = i+1;
+    //     await sleep(600000); // 10 分钟
+    // }
+
 })().then().catch();
 

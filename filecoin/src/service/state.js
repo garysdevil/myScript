@@ -16,18 +16,22 @@ const addNetworkPowerService = async () => {
     const networkPower = await connector.state.readState('f04');
     const blockHeight = networkPower.State.FirstCronEpoch;
     const minerCount = networkPower.State.MinerCount;
-    const totalRawBytePower = networkPower.State.TotalRawBytePower;
-    const totalQualityAdjPower = networkPower.State.TotalQualityAdjPower;
+    const collateral = networkPower.State.TotalPledgeCollateral;
+    const rawPower = networkPower.State.TotalRawBytePower;
+    const adjPower = networkPower.State.TotalQualityAdjPower;
 
-    const totalRawBytePowerN = BigInt(totalRawBytePower)
-    const totalQualityAdjPowerN = BigInt(totalQualityAdjPower)
-    const validDataPowerN = totalQualityAdjPowerN - totalRawBytePowerN
+    const rawPowerN = BigInt(rawPower);
+    const adjPowerN = BigInt(adjPower);
+    const dc = (adjPowerN - rawPowerN)/9n;
+    const cc = rawPowerN - dc;
 
     const obj = {
-        miner_count: minerCount, block_height: blockHeight, raw_power: totalRawBytePowerN, valid_power: validDataPowerN, total_power: totalQualityAdjPowerN
+        block_height: blockHeight, miner_count: minerCount, collateral: collateral, raw_power: rawPower, adj_power: adjPower, dc, cc
     };
-    const num = await networkPowerDao.add(obj);
-    return num;
+    
+    console.log(obj);
+    // const num = await networkPowerDao.add(obj);
+    // return num;
 }
 
 export {
