@@ -125,6 +125,7 @@ const transferExact = async (wallet, to_address, value_ether, waitFlag = true, m
     } catch (e) {
         const origin_addres = wallet.address;
         console.log('转账失败', '; origin_addres=', origin_addres, '; to_address=', to_address, '; value_ether=', value_ether);
+        console.log(e);
         process.exit(1);
     }
 };
