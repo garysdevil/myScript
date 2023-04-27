@@ -3,7 +3,8 @@ import * as ethers from 'ethers';
 import fs from 'fs';
 import ini from 'ini';
 
-import * as ethers_online from '../ethers/ethers_online';
+import * as ethers_online from '../ethers/ethers_online.js';
+import * as ethers_offline from '../ethers/ethers_offline.js';
 
 const config = ini.parse(fs.readFileSync('../conf/.local.config.ini', 'utf-8'));
 const ethereum_url = config.fullnode.ethereum_rpc_url;
@@ -82,10 +83,14 @@ const checkBalance = async () => {
 };
 
 (async () => {
-    await ethers_online.getProviderStatus(ethersProvider);
-    console.log(await ethers_online.getNetGasPrice(ethersProvider));
+    // await ethers_online.getProviderStatus(ethersProvider);
+    // console.log(await ethers_online.getNetGasPrice(ethersProvider));
 
+    // 测试 转出钱包的所有余额
     // let baseFeePerGas_gwei = 11;
     // await ethers_online.loopGetTargetGasPrice(ethersProvider, baseFeePerGas_gwei, 15000);
     // await test_transferExact_all(origin_address, origin_private_key, to_address);
+
+    // 测试 ethers_online.generateEthWallet 函数
+    console.log('生成一个钱包', ethers_offline.generateEthWallet());
 })();
