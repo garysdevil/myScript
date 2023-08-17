@@ -2,6 +2,21 @@ import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
 
+const setAxiosProxy = () => {
+    const proxy = {
+        host: '127.0.0.1', // 替换为你的代理服务器地址
+        port: 7890, // 替换为你的代理服务器端口
+        protocol: 'http',
+        // 可选：代理服务器的身份验证（如果有的话）
+        // auth: {
+        //     username: 'your-username',
+        //     password: 'your-password',
+        // },
+    };
+    // 设置全局代理
+    axios.defaults.proxy = proxy;
+};
+
 // const data = {
 //     userId: 1
 // };
@@ -69,5 +84,4 @@ export { sendGetRequest, sendPostRequest, downloadFile };
 // };
 
 // (async () => {
-//     // await test();
 // })();
