@@ -3,7 +3,8 @@ import * as ethers from 'ethers';
 import fs from 'fs';
 import ini from 'ini';
 
-import * as ethers_online from '../ethers/ethers_online';
+import * as ethers_online from '../ethers/ethers_online.js';
+import * as abi from '../ethers/abi.js';
 
 const config = ini.parse(fs.readFileSync('../conf/.local.config.ini', 'utf-8'));
 const ethereum_url = config.fullnode.ethereum_rpc_url;
@@ -14,26 +15,10 @@ const testCoinContract = async (wallet_address, wallet_private_key) => {
     // const daiMainnetAddress = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
     const coinTestnetAddress = '0x3aEe4b05C117D48241AdbaEc05b1DA9fC49200B1';
 
-    // The ERC-20 Contract ABI, which is a common contract interface
-    // for tokens (this is the Human-Readable ABI format)
-    const erc20Abi = [
-        // Some details about the token
-        'function name() view returns (string)',
-        'function symbol() view returns (string)',
+    const erc20Abi = abi.erc20;
+    erc20Abi.push('function mint(address receiver, uint256 amount)');
 
-        // Get the account balance
-        'function balanceOf(address) view returns (uint)',
-
-        // Send some of your tokens to someone else
-        'function transfer(address to, uint amount)',
-
-        // An event triggered whenever anyone transfers to someone else
-        'event Transfer(address indexed from, address indexed to, uint amount)',
-
-        'function mint(address receiver, uint256 amount)',
-    ];
-
-    const coinContract = new ethers.Contract(coinTestnetAddress, erc20Abi, ethersProvider);
+    const coinContract = new ethers.Contract(coinTestnetAddress, abi.erc20, ethersProvider);
 
     console.log(await coinContract.name());
     console.log(await coinContract.symbol());
@@ -127,7 +112,7 @@ const testParaSpaceContract = async (wallet_private_key, wallet_address) => {
     const { wallet_private_key_a } = config;
     const { wallet_address_a } = config;
 
-    // await testCoinContract();
+    await testCoinContract(wallet_address, wallet_private_key);
 
-    await testParaSpaceContract();
+    // await testParaSpaceContract();
 })();
