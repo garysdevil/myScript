@@ -1,3 +1,5 @@
+/* eslint-disable prefer-spread */
+
 // https://eips.ethereum.org/EIPS/eip-721
 // https://ethereum.org/en/developers/docs/standards/tokens/erc-721/
 
@@ -36,8 +38,13 @@ const erc721Metadata = [
     'function symbol() external view returns (string _symbol)',
     'function tokenURI(uint256 _tokenId) external view returns (string)',
 ];
+const ERC721Enumerable = [
+    'function totalSupply() external view returns (uint256)',
+    'function tokenByIndex(uint256 _index) external view returns (uint256)',
+    'function tokenOfOwnerByIndex(address _owner, uint256 _index) external view returns (uint256)',
+];
 
-// eslint-disable-next-line prefer-spread
 erc721.push.apply(erc721, erc721Metadata);
+erc721.push.apply(erc721, ERC721Enumerable);
 
 export { erc20, erc721 };
