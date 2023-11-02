@@ -1,3 +1,8 @@
+## 运行项目
+```
+npm i
+```
+
 ## zksync
 ```bash
 yarn add zksync

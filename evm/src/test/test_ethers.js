@@ -91,6 +91,6 @@ const checkBalance = async () => {
     // await ethers_online.loopGetTargetGasPrice(ethersProvider, baseFeePerGas_gwei, 15000);
     // await test_transferExact_all(origin_address, origin_private_key, to_address);
 
-    // 测试 ethers_online.generateEthWallet 函数
-    console.log('生成一个钱包', ethers_offline.generateEthWallet());
+    // 测试 ethers_online.generateEthWallet 函数 生成一个钱包
+    console.log(ethers_offline.generateEthWallet());
 })();
