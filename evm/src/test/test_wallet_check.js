@@ -1,3 +1,5 @@
+// 运行方式 config_path='/config.ini', wallet_path='/wallet.json' && node test_wallet_check.js
+
 import * as ethers from 'ethers';
 import fs from 'fs';
 import ini from 'ini';
