@@ -7,12 +7,16 @@ import * as abi from '../ethers/abi.js';
 import * as requestUtil from '../utils/request.js';
 import * as myutils from '../utils/utils.js';
 
-const config = ini.parse(fs.readFileSync('配置路径', 'utf-8'));
+const config_path = process.env.config_path || '../conf/.local.config.ini';
+const wallet_path = process.env.wallet_path || '../conf/.local.wallet.json';
+console.log('config_path=', config_path, '\nwallet_path=', wallet_path);
 
-const rpc_url = config.fullnode.polygon_rpc_url; // 选择要接入的网络
+const config = ini.parse(fs.readFileSync(config_path, 'utf-8'));
+
+const rpc_url = config.fullnode.sepolia_rpc_url; // 选择要接入的网络
 const ethersProvider = new ethers.providers.JsonRpcProvider(rpc_url);
 
-const wallet_data = fs.readFileSync('钱包路径', 'utf8');
+const wallet_data = fs.readFileSync(wallet_path, 'utf8');
 const wallet_arr_obj = JSON.parse(wallet_data);
 
 const { arbitrum_api_key, polygon_api_key } = config.explorer;
@@ -30,7 +34,7 @@ const getERC20Balance = async () => {
         console.log(jsonObj.balance);
         // console.log(i + 1, jsonObj.balance, ', nonce+1=', await ethersProvider.getTransactionCount(address));
     }
-    console.log('总额=', token_total, 'ETH');
+    console.log('总额=', token_total, 'Token');
 };
 
 const getERC20BalanceByExplorer = async () => {
@@ -77,13 +81,14 @@ const getNFTTXNum = async (nft_contract_address) => {
     // AVAX网络合约地址
     // const nft_contract_address = '0xf9ad3f5eab7e9214387c75d58ce40d3a6d05b930' // Rollux项目galax上OAT合约
     // polygon网络合约地址
-    const nft_contract_address = '0x5d666f215a85b87cb042d59662a7ecd2c8cc44e6'; // Token Galxe OAT 合约  https://polygonscan.com/token/0x5d666f215a85b87cb042d59662a7ecd2c8cc44e6
+    // const nft_contract_address = '0x5d666f215a85b87cb042d59662a7ecd2c8cc44e6'; // Token Galxe OAT 合约  https://polygonscan.com/token/0x5d666f215a85b87cb042d59662a7ecd2c8cc44e6
     // const nft_contract_address = '0x767348071c751525198b09c453d6d267ac47cf6f'; // zkLink奥德赛五 Summer Tour Multi-Chain Week OAT 合约
     // const nft_contract_address = '0x89acaf092909d5e20a18fd6b4a866e3674495b9e'; // zkLink Mystery Box 合约
 
+    // await getERC20BalanceByExplorer();
+    // await getNFTBalance(nft_contract_address);
+    // await getNFTTXNum(nft_contract_address);
+
     await ethers_online.getProviderStatus(ethersProvider);
     await getERC20Balance();
-    await getERC20BalanceByExplorer();
-    await getNFTBalance(nft_contract_address);
-    await getNFTTXNum(nft_contract_address);
 })();
