@@ -15,10 +15,10 @@ const generateEthWallet = () => {
     const { address } = wallet;
     const private_key = wallet.privateKey;
     const { mnemonic } = wallet;
-    // let mnemonic = wallet.mnemonic.phrase
-    const json = JSON.stringify({ address, private_key, mnemonic });
+    const { phrase } = wallet.mnemonic;
+    // const json = JSON.stringify({ address, private_key, mnemonic });
     // console.log(json);
-    return json;
+    return phrase;
 };
 
 // 批量生成钱包，写入指定的文件内
