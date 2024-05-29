@@ -16,7 +16,7 @@ console.log('config_path=', config_path, '\nwallet_path=', wallet_path);
 
 const config = ini.parse(fs.readFileSync(config_path, 'utf-8'));
 
-const rpc_url = config.fullnode.sepolia_rpc_url; // 选择要接入的网络
+const rpc_url = config.fullnode.ethereum_rpc_url; // 选择要接入的网络
 const ethersProvider = new ethers.providers.JsonRpcProvider(rpc_url);
 
 const wallet_data = fs.readFileSync(wallet_path, 'utf8');
@@ -92,6 +92,13 @@ const getNFTTXNum = async (nft_contract_address) => {
     // await getNFTBalance(nft_contract_address);
     // await getNFTTXNum(nft_contract_address);
 
-    await ethers_online.getProviderStatus(ethersProvider);
-    await getERC20Balance();
+    // await ethers_online.getProviderStatus(ethersProvider);
+    // await getERC20Balance();
+
+
+    for (let i = 0; i < 100; i += 1) {
+        const { address } = wallet_arr_obj[i];
+        const a = await ethersProvider.getTransactionCount(address);
+        console.log(a);
+    }
 })();
