@@ -1,0 +1,17 @@
+{
+  "name": "cosmos",
+  "version": "1.0.0",
+  "description": "```bash npm init -y",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@cosmjs/proto-signing": "^0.32.4",
+    "@cosmjs/stargate": "^0.32.4",
+    "bip39": "^3.1.0"
+  }
+}
