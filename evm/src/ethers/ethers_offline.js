@@ -2,7 +2,7 @@ import * as ethers from 'ethers';
 import fs from 'fs';
 
 // 生成一个钱包，返回钱包的地址，私钥，助记词
-const generateEthWallet = () => {
+const generateEthWallet = (id) => {
     // 生成钱包 方式一
     // let privateKey = ethers.utils.randomBytes(32) // 生成32个随机字节
     // // console.log(Buffer.from(privateKey).toString('hex')) // 转成16进制字符串
@@ -15,10 +15,10 @@ const generateEthWallet = () => {
     const { address } = wallet;
     const private_key = wallet.privateKey;
     const { mnemonic } = wallet;
-    const { phrase } = wallet.mnemonic;
-    // const json = JSON.stringify({ address, private_key, mnemonic });
+    // const { phrase } = wallet.mnemonic;
+    const json = JSON.stringify({ id, address, private_key, mnemonic });
     // console.log(json);
-    return phrase;
+    return json;
 };
 
 // 批量生成钱包，写入指定的文件内

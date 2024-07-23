@@ -92,6 +92,6 @@ const checkBalance = async () => {
     // await test_transferExact_all(origin_address, origin_private_key, to_address);
 
     // 测试 ethers_online.generateEthWallet 函数 生成一个钱包
-    console.log(ethers_offline.generateEthWallet());
-    for (let i = 0; i < 10; i += 1) { console.log(ethers_offline.generateEthWallet()); }
+    // console.log(ethers_offline.generateEthWallet());
+    for (let i = 201; i <= 400; i += 1) { console.log(ethers_offline.generateEthWallet(i)); }
 })();
