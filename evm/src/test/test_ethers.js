@@ -93,5 +93,5 @@ const checkBalance = async () => {
 
     // 测试 ethers_online.generateEthWallet 函数 生成一个钱包
     // console.log(ethers_offline.generateEthWallet());
-    for (let i = 201; i <= 400; i += 1) { console.log(ethers_offline.generateEthWallet(i)); }
+    for (let i = 1; i <= 100; i += 1) { console.log(ethers_offline.generateEthWallet(i)); }
 })();
