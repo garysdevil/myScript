@@ -41,7 +41,7 @@ const test_zksync_2 = async () => {
 
 const test_ethers = async () => {
     // 生成钱包
-    const wallet_json_str = ethers_online.generateEthWallet();
+    const wallet_json_str = ethers_online.create12WordsEVMWallet();
     console.log(wallet_json_str);
     const new_wallet_address = JSON.parse(wallet_json_str).address;
     // new_wallet_private_key = JSON.parse(wallet_json_str).private_key;
