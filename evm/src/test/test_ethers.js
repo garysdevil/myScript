@@ -5,6 +5,7 @@ import ini from 'ini';
 
 import * as ethers_online from '../ethers/ethers_online.js';
 import * as ethers_offline from '../ethers/ethers_offline.js';
+import * as utils from '../utils/utils.js';
 
 const config = ini.parse(fs.readFileSync('../conf/.local.config.ini', 'utf-8'));
 const ethereum_url = config.fullnode.ethereum_rpc_url;
@@ -93,5 +94,8 @@ const checkBalance = async () => {
 
     // 测试 ethers_online.create12WordsEVMWallet 函数 生成一个钱包
     // console.log(ethers_offline.create12WordsEVMWallet());
-    for (let i = 1; i <= 10; i += 1) { console.log(ethers_offline.create24WordsEVMWallet(i)); }
+    for (let i = 1; i <= 100; i += 1) {
+        const result = ethers_offline.create12WordsEVMWallet(i);
+        utils.writeContentToFile('./local.result', result);
+    }
 })();

@@ -1,4 +1,5 @@
 import contentHash from 'content-hash';
+import { appendFile } from 'fs';
 
 //
 const getZksyncContentHashByCid = (cid) => {
@@ -20,7 +21,24 @@ const randomNum = (maxNum) =>
 // eslint-disable-next-line no-promise-executor-return
 const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
 
-export { getZksyncContentHashByCid, delay, randomNum };
+/**
+ * 写入内容到指定文件
+ * @param {string} filePath - 文件路径
+ * @param {string} content - 要写入的内容
+ */
+const writeContentToFile = (filePath, content) => {
+    // 使用追加模式写入文件
+    appendFile(filePath, `${content}\n`, (err) => {
+        if (err) {
+            console.error(`写入文件失败: ${err}`);
+        } else {
+            console.log(`内容已成功写入文件: ${filePath}`);
+        }
+    });
+};
+export {
+    getZksyncContentHashByCid, delay, randomNum, writeContentToFile,
+};
 
 // const test = async () => {
 //     const cid = 'Qmc4g6TMc8CpjhQh3XPpc4ozPCF9viQNcyoDFU42PdZ6Zh';

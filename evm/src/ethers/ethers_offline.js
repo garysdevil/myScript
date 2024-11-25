@@ -16,8 +16,10 @@ const create12WordsEVMWallet = (id) => {
     const { address } = wallet;
     const private_key = wallet.privateKey;
     const { mnemonic } = wallet;
-    // const { phrase } = wallet.mnemonic;
-    const json = JSON.stringify({ id, address, private_key, mnemonic });
+    const { phrase } = wallet.mnemonic;
+    const json = JSON.stringify({
+        id, phrase, address, private_key,
+    });
     return json;
 };
 
@@ -28,7 +30,9 @@ const create24WordsEVMWallet = (id) => {
     const wallet = ethers.Wallet.fromMnemonic(mnemonic);
     const { address } = wallet;
     const private_key = wallet.privateKey;
-    const json = JSON.stringify({ id, address, private_key, mnemonic });
+    const json = JSON.stringify({
+        id, address, private_key, mnemonic,
+    });
     return json;
 };
 

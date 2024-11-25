@@ -9,7 +9,7 @@ const generateWallet = async () => {
   const keypair = Keypair.fromSeed(key.slice(0, 32)); // Create a keypair from the first 32 bytes of the seed
 
   return {
-    address: keypair.publicKey.toString(),
+    // address: keypair.publicKey.toString(),
     seed: mnemonic, // Rename to match "seed"
   };
 };
@@ -17,7 +17,7 @@ const generateWallet = async () => {
 const main = async () => {
   const numberOfWallets = 800; // Change this number to create more or fewer wallets
 
-  for (let i = 101; i <= numberOfWallets; i++) {
+  for (let i = 1; i <= numberOfWallets; i++) {
     const wallet = await generateWallet();
     const formattedOutput = JSON.stringify({ index: i, ...wallet }, null, 0)
     console.log(formattedOutput);
