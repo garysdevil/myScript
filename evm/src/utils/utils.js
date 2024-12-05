@@ -1,5 +1,5 @@
 import contentHash from 'content-hash';
-import { appendFile } from 'fs';
+import { appendFileSync } from 'fs';
 
 //
 const getZksyncContentHashByCid = (cid) => {
@@ -22,19 +22,17 @@ const randomNum = (maxNum) =>
 const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
 
 /**
- * 写入内容到指定文件
+ * 写入内容到指定文件，使用同步写入确保顺序
  * @param {string} filePath - 文件路径
  * @param {string} content - 要写入的内容
  */
-const writeContentToFile = (filePath, content) => {
-    // 使用追加模式写入文件
-    appendFile(filePath, `${content}\n`, (err) => {
-        if (err) {
-            console.error(`写入文件失败: ${err}`);
-        } else {
-            console.log(`内容已成功写入文件: ${filePath}`);
-        }
-    });
+const writeContentToFile = (filePath, content, info = '') => {
+    try {
+        appendFileSync(filePath, `${content}\n`);
+        console.log(`${info}. 内容已成功写入文件: ${filePath}`);
+    } catch (err) {
+        console.error(`${info}. 写入文件失败: ${err}`);
+    }
 };
 export {
     getZksyncContentHashByCid, delay, randomNum, writeContentToFile,
