@@ -105,3 +105,4 @@ dist
 
 local*
 .local*
+.DS_Store
