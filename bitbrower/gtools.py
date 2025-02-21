@@ -2,7 +2,7 @@
 import psutil
 import os
 
-def get_bitc_url():
+def get_bitbrower_url():
     """
     获取比特浏览器的本地监听URL。
     遍历所有进程，找到名为'比特浏览器'的进程，并获取其监听的端口号，构建URL返回。

@@ -10,11 +10,11 @@ import json
 
 
 SESSION = requests.session()
-URL = gtools.get_bitc_url()
+URL = gtools.get_bitbrower_url()
 
 def bit_list():
     body = {'page': 0,
-               "pageSize":2}
+               "pageSize":25}
     temp = SESSION.post(f"{URL}/browser/list", json=body).json()
     # formatted_json = json.dumps(temp, indent=4, ensure_ascii=False)
     # print(formatted_json)
@@ -24,13 +24,9 @@ def bit_list():
 
 if __name__ == "__main__":
     list_window = bit_list()
-    list_id = []
-    list_seq = []
+    list_seq_id = []
     for window in list_window:
-        list_id.append(window['id'] +'\n')
-        list_seq.append(window['seq'])
-    list_id=list_id[::-1]
-    list_seq=list_seq[::-1]
-    # print(list_id)
-    # print(list_seq)
-    gtools.write_file(r"local/id.txt",list_id,'w+')
+        list_seq_id.append(str(window['seq']) + " " + window['id'] +'\n')
+    list_seq_id=list_seq_id[::-1]
+    # print(list_seq_id)
+    gtools.write_file(r"local/seq_id.txt",list_seq_id,'w+')
