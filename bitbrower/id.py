@@ -13,9 +13,9 @@ SESSION = requests.session()
 URL = gtools.get_bitbrower_url()
 
 def bit_list():
-    body = {'page': 0,
+    headers = {'page': 0,
                "pageSize":25}
-    temp = SESSION.post(f"{URL}/browser/list", json=body).json()
+    temp = SESSION.post(f"{URL}/browser/list", json=headers).json()
     # formatted_json = json.dumps(temp, indent=4, ensure_ascii=False)
     # print(formatted_json)
     list = temp['data']['list']

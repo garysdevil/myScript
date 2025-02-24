@@ -15,7 +15,7 @@ URL = gtools.get_bitbrower_url()
 def bit_proxy(id, proxy):
     if proxy == "":
         # 不设置代理
-        body = {'ids': [id],
+        headers = {'ids': [id],
                 "ipCheckService":"ip-api",
                 "proxyMethod":2,
                 "proxyType":"noproxy"
@@ -27,7 +27,7 @@ def bit_proxy(id, proxy):
         proxyUserName = proxy_temp[2]
         proxyPassword = proxy_temp[3]
         # 设置代理socket5
-        body = {'ids': [id],
+        headers = {'ids': [id],
                 "ipCheckService":"ip-api",
                 "proxyMethod":2,
                 "proxyType":"socks5",
@@ -36,7 +36,7 @@ def bit_proxy(id, proxy):
                 "proxyUserName":proxyUserName,
                 "proxyPassword":proxyPassword,
                 }
-    result = SESSION.post(f"{URL}/browser/proxy/update", json=body).json()
+    result = SESSION.post(f"{URL}/browser/proxy/update", json=headers).json()
     # print(result)
     # print(result['data']['list'])
     return result
