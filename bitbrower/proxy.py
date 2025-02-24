@@ -7,10 +7,8 @@ import gtools
 
 # https:#doc.bitbrowser.cn/api-jie-kou-wen-dang/liu-lan-qi-jie-kou
 
-
 SESSION = requests.session()
-URL = gtools.get_bitbrower_url()
-
+URL = "http://127.0.0.1:54345"
 
 def bit_proxy(id, proxy):
     if proxy == "":
@@ -40,8 +38,6 @@ def bit_proxy(id, proxy):
     # print(result)
     # print(result['data']['list'])
     return result
-
-
 
 if __name__ == "__main__":
     list_seq_id = gtools.read_file(r'local/seq_id.txt')

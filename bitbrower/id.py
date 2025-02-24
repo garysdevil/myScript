@@ -10,7 +10,7 @@ import json
 
 
 SESSION = requests.session()
-URL = gtools.get_bitbrower_url()
+URL = "http://127.0.0.1:54345"
 
 def bit_list():
     headers = {'page': 0,

@@ -1,20 +1,5 @@
-# 获取指纹浏览器使用端口
-import psutil
 import os
 
-def get_bitbrower_url():
-    """
-    获取比特浏览器的本地监听URL。
-    遍历所有进程，找到名为'比特浏览器'的进程，并获取其监听的端口号，构建URL返回。
-    """
-    url = "http://127.0.0.1:"
-    for proc in psutil.process_iter():
-        if proc.name() == '比特浏览器':  # windows环境 比特浏览器.exe
-            for x in proc.net_connections():
-                if x.status == psutil.CONN_LISTEN:
-                    url = url + str(x.laddr.port)
-                    return url
-    return None
 
 # 写入文件
 def write_file(file_name, data_list, mode='a'):
