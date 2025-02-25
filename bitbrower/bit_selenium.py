@@ -6,7 +6,7 @@ from selenium.webdriver.chrome.service import Service  # 引入 Service
 import bit_api
 
 # /browser/open 接口会返回 selenium 使用的 http 地址，以及 webdriver 的 path，直接使用即可
-res = bit_api.openBrowser('d6515786c8054ec69fcbab56a758a440')
+res = bit_api.openBrowser('aae2168f8ed74634b74705cdaea97821')
 driverPath = res['data']['driver']
 debuggerAddress = res['data']['http']
 
