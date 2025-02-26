@@ -144,7 +144,7 @@ def createOrUpdateBrowser():  # 创建或者更新窗口
 
 def openBrowser(id):  # 打开窗口
     # headers = {'id': f'{createOrUpdateBrowser()}'}
-    headers = {'id': f'{id}'}
+    headers = {'id': f'{id}', 'args': ["--disable-web-security"]}
     res = request.post(f"{url}/browser/open", json=headers).json()
     print(res)
     # print(res['data']['http'])
