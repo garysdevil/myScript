@@ -11,6 +11,7 @@ selenium = {
     "id" : "185236ee956b4ad99980bad5ce08f4df"
 }
 
+# 测试案例
 metamask = {
     "password": "password",
     "seed_phrase": "seed_phrase" # 测试案例

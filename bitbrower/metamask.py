@@ -32,9 +32,10 @@ def switch_to_metamask_tab(driver: webdriver.Chrome):
             driver.switch_to.window(handle)
             current_url = driver.current_url
             if current_url == 'chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#onboarding/welcome':
-                break
+                return True
         except Exception as e:
             print(f"{index} 窗口 {handle} 无有效上下文")
+    return False
 
 
 def metamask_setup(driver: webdriver.Chrome, seed_phrase, password):
@@ -74,11 +75,16 @@ def allinone(id: str, seed_phrase: str, password: str):
     driver = get_driver(id)
     print(f"{id} 获取driver成功，等待5秒")
     time.sleep(5)
-    switch_to_metamask_tab(driver)
-    print(f"{id} 切换标签成功")
-    seed_phrase = seed_phrase.replace(' ', '\t\t')
-    metamask_setup(driver, seed_phrase, password)
-    print(f"{id} 导入metamask成功")
+
+    flag = switch_to_metamask_tab(driver)
+    if not flag:
+        print(f"{id} 未找到metamask标签")
+    else:
+        print(f"{id} 切换标签成功")
+        seed_phrase = seed_phrase.replace(' ', '\t\t')
+        metamask_setup(driver, seed_phrase, password)
+        print(f"{id} 导入metamask成功")
+
     bit_api.closeBrowser(id)
     print(f"{id} 关闭窗口成功")
 
