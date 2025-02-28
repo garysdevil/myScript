@@ -137,18 +137,12 @@ def createOrUpdateBrowser():  # 创建或者更新窗口
     }
 
     res = request.post(f"{url}/browser/update", json=headers).json()
-    print("createOrUpdateBrowser() res:",res)
-    browserId = res['data']['id']
-    print(browserId)
-    return browserId
-
+    return res
 
 def openBrowser(id):  # 打开窗口
     # headers = {'id': f'{createOrUpdateBrowser()}'}
     headers = {'id': f'{id}', 'args': ["--disable-web-security"]}
     res = request.post(f"{url}/browser/open", json=headers).json()
-    print(res)
-    # print(res['data']['http'])
     return res
 
 
@@ -158,9 +152,13 @@ def closeBrowser(id):  # 关闭窗口
 
 def deleteBrowser(id):  # 删除窗口
     headers = {'id': f'{id}'}
-    print(request.post(f"{url}/browser/delete", json=headers).json())
+    res = request.post(f"{url}/browser/delete", json=headers).json()
+    return res
 
 
 
 if __name__ == '__main__':
-    createOrUpdateBrowser()
+    res = createOrUpdateBrowser()
+    print("createOrUpdateBrowser() res:",res)
+    browserId = res['data']['id']
+    print("browserId:",browserId)

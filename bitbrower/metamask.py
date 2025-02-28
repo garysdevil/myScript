@@ -1,96 +1,110 @@
-
+# metamask_setup.py
 import time
 from selenium.webdriver.common.by import By
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.support import expected_conditions as EC
 
 from configs import local_config
 import bit_api
+from logger import get_logger
 
-def get_driver(id):
+# 初始化 logger，默认同时输出到文件和控制台
+logger = get_logger('bit_log', to_console=True)
+
+def get_driver(id: str) -> webdriver.Chrome:
+    """获取Chrome驱动实例"""
     res = bit_api.openBrowser(id)
-    driverPath = res['data']['driver']
-    debuggerAddress = res['data']['http']
-
-    print(f"driverPath={driverPath}")
-    print(f"id={id}")
-    print(f"debuggerAddress={debuggerAddress}")
-
+    driver_path = res['data']['driver']
+    debugger_address = res['data']['http']
+    
+    logger.info(f"Initializing driver - ID: {id}, Path: {driver_path}, Address: {debugger_address}")
+    
     chrome_options = Options()
-    chrome_options.add_experimental_option("debuggerAddress", debuggerAddress)
+    chrome_options.add_experimental_option("debuggerAddress", debugger_address)
+    service = Service(executable_path=driver_path)
+    
+    return webdriver.Chrome(service=service, options=chrome_options)
 
-    # 使用 Service 指定 chromedriver 路径
-    service = Service(executable_path=driverPath)
-    driver = webdriver.Chrome(service=service, options=chrome_options)
-    return driver
-
-def switch_to_metamask_tab(driver: webdriver.Chrome):
+def switch_to_metamask_tab(driver: webdriver.Chrome) -> bool:
+    """切换到MetaMask标签页"""
     for index, handle in enumerate(driver.window_handles):
         try:
             driver.switch_to.window(handle)
             current_url = driver.current_url
             if current_url == 'chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#onboarding/welcome':
+                logger.info(f"Successfully switched to MetaMask tab at index {index}")
                 return True
         except Exception as e:
-            print(f"{index} 窗口 {handle} 无有效上下文")
+            logger.warning(f"Window {index} ({handle}) has no valid context: {str(e)}")
     return False
 
+def metamask_setup(driver: webdriver.Chrome, seed_phrase: str, password: str) -> None:
+    """执行MetaMask钱包设置"""
 
-def metamask_setup(driver: webdriver.Chrome, seed_phrase, password):
     try:
-        driver.find_element(By.XPATH,'//input[@id="onboarding__terms-checkbox"]').click() # 点击打勾 我同意MetaMask的使用条款
-        driver.find_element(By.XPATH,'//button[@data-testid="onboarding-import-wallet"]').click() # 点击按钮 导入现有钱包 # driver.find_element(By.XPATH,'//button[text()="导入现有钱包"]').click()
+        # 同意条款
+        driver.find_element(By.XPATH, '//input[@id="onboarding__terms-checkbox"]').click() # 点击打勾 我同意MetaMask的使用条款
+        driver.find_element(By.XPATH, '//button[@data-testid="onboarding-import-wallet"]').click() # 点击按钮 导入现有钱包 # driver.find_element(By.XPATH, '//button[text()="导入现有钱包"]').click()
         time.sleep(1)
         
-        driver.find_element(By.XPATH,'//button[@data-testid="metametrics-no-thanks"]').click() # 点击按钮 不，谢谢
+        # 拒绝数据收集
+        driver.find_element(By.XPATH, '//button[@data-testid="metametrics-no-thanks"]').click() # 点击按钮 不，谢谢
         time.sleep(1)
 
-        driver.find_element(By.XPATH,'//*[@id="import-srp__srp-word-0"]').send_keys(seed_phrase) # 导入助记词
-        driver.find_element(By.XPATH,'//button[@data-testid="import-srp-confirm"]').click() # 点击按钮 确认私钥助记词
+        # 输入助记词
+        driver.find_element(By.XPATH, '//*[@id="import-srp__srp-word-0"]').send_keys(seed_phrase) # 导入助记词
+        driver.find_element(By.XPATH, '//button[@data-testid="import-srp-confirm"]').click() # 点击按钮 确认私钥助记词
         time.sleep(1)
         
-        driver.find_element(By.XPATH,'//input[@data-testid="create-password-new"]').send_keys(password)
-        driver.find_element(By.XPATH,'//input[@data-testid="create-password-confirm"]').send_keys(password)
-        driver.find_element(By.XPATH,"//input[@data-testid='create-password-terms']").click() # 点击打勾 我明白 MetaMask 无法为我恢复此密码。了解更多
-        driver.find_element(By.XPATH,'//button[@data-testid="create-password-import"]').click() # 点击按钮 导入我的钱包
+        # 设置密码
+        driver.find_element(By.XPATH, '//input[@data-testid="create-password-new"]').send_keys(password)
+        driver.find_element(By.XPATH, '//input[@data-testid="create-password-confirm"]').send_keys(password)
+        driver.find_element(By.XPATH, "//input[@data-testid='create-password-terms']").click() # 点击打勾 我明白 MetaMask 无法为我恢复此密码。了解更多
+        driver.find_element(By.XPATH, '//button[@data-testid="create-password-import"]').click() # 点击按钮 导入我的钱包
         time.sleep(1)
 
-        driver.find_element(By.XPATH,'//button[@data-testid="onboarding-complete-done"]').click() # 点击按钮 完成
+        # 完成设置
+        driver.find_element(By.XPATH, '//button[@data-testid="onboarding-complete-done"]').click() # 点击按钮 完成
         time.sleep(1)
-
-        driver.find_element(By.XPATH,'//button[@data-testid="pin-extension-next"]').click() # 点击按钮 下一步
+        driver.find_element(By.XPATH, '//button[@data-testid="pin-extension-next"]').click() # 点击按钮 下一步
         time.sleep(1)
-
-        driver.find_element(By.XPATH,'//button[@data-testid="pin-extension-done"]').click()  # 点击按钮 完成
+        driver.find_element(By.XPATH, '//button[@data-testid="pin-extension-done"]').click()  # 点击按钮 完成
         time.sleep(1)
         
-        print("正在导入，等待5秒")
+        logger.info("Importing wallet, waiting 5 seconds")
         time.sleep(5)
+
     except Exception as e:
-        print(f"错误 {e}")
+        logger.error(f"Setup failed: {str(e)}")
+        raise
 
-def allinone(id: str, seed_phrase: str, password: str):
-    driver = get_driver(id)
-    print(f"{id} 获取driver成功，等待5秒")
-    time.sleep(5)
+def allinone(id: str, seed_phrase: str, password: str) -> None:
+    """执行完整的MetaMask设置流程"""
+    try:
+        driver = get_driver(id)
+        logger.info(f"Driver acquired successfully, waiting 5 seconds")
+        time.sleep(5)
 
-    flag = switch_to_metamask_tab(driver)
-    if not flag:
-        print(f"{id} 未找到metamask标签")
-    else:
-        print(f"{id} 切换标签成功")
-        seed_phrase = seed_phrase.replace(' ', '\t\t')
-        metamask_setup(driver, seed_phrase, password)
-        print(f"{id} 导入metamask成功")
+        if not switch_to_metamask_tab(driver):
+            logger.warning(f"MetaMask tab not found")
+        else:
+            logger.info(f"Tab switched successfully")
+            formatted_seed = seed_phrase.replace(' ', '\t\t')
+            metamask_setup(driver, formatted_seed, password)
+            logger.info(f"MetaMask imported successfully")
 
-    bit_api.closeBrowser(id)
-    print(f"{id} 关闭窗口成功")
+    except Exception as e:
+        logger.error(f"Process failed: {str(e)}")
+    finally:
+        bit_api.closeBrowser(id)
+        logger.info(f"Browser closed successfully")
 
+# 示例使用
 if __name__ == "__main__":
-    print("hello")
+    logger.info("Starting MetaMask setup process")
     seed_phrase = local_config.metamask.get('seed_phrase')
     password = local_config.metamask.get('password')
     id = local_config.selenium.get('id')
     allinone(id, seed_phrase, password)
+    logger.info(f"{id} Process completed")
