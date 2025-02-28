@@ -3,12 +3,12 @@ import requests
 import time
 import random
 import fileinput
-import gtools
-
+import myjs.bitbrower.gutils as gutils
+from configs import local_config
 # https:#doc.bitbrowser.cn/api-jie-kou-wen-dang/liu-lan-qi-jie-kou
 
-SESSION = requests.session()
-URL = "http://127.0.0.1:54345"
+session = requests.session()
+url = local_config.bitbrower.get("url") or "http://127.0.0.1:54345"
 
 def bit_proxy(id, proxy):
     if proxy == "":
@@ -34,14 +34,14 @@ def bit_proxy(id, proxy):
                 "proxyUserName":proxyUserName,
                 "proxyPassword":proxyPassword,
                 }
-    result = SESSION.post(f"{URL}/browser/proxy/update", json=headers).json()
+    result = session.post(f"{url}/browser/proxy/update", json=headers).json()
     # print(result)
     # print(result['data']['list'])
     return result
 
 if __name__ == "__main__":
-    list_seq_id = gtools.read_file(r'local/seq_id.txt')
-    list_proxy = gtools.read_file(r'local/proxy.txt')
+    list_seq_id = gutils.read_file(r'local/seq_id.txt')
+    list_proxy = gutils.read_file(r'local/proxy.txt')
     for i in range(len(list_seq_id)):
         seq_id = list_seq_id[i].strip().split(" ")
         seq, id = seq_id

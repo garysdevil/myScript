@@ -1,10 +1,11 @@
 import requests
+from configs import local_config
 
 # 官方文档地址，需要科学上网使用
 # http://doc.bitbrowser.cn/api-jie-kou-wen-dang/ben-di-fu-wu-zhi-nan
 
 request = requests.session()
-url = "http://127.0.0.1:54345"
+url = local_config.bitbrower.get("url") or "http://127.0.0.1:54345"
 
 # import psutil
 # def get_bitbrower_url():

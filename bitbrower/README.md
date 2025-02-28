@@ -1,4 +1,9 @@
 ## -
+
+```txt
+Python版本 3.12
+```
+
 ```sh
 mkdir local
 cp config.py local.config.py 

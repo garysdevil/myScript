@@ -29,6 +29,6 @@ def clear_file(filename):
         file.write("")
 
 if __name__ == "__main__":
-    print('gtools.py')
+    print('gutils.py')
     # a = read_file(r"local/id.txt")
     # print(a)
