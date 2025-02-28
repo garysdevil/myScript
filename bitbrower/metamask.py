@@ -14,7 +14,11 @@ logger = get_logger('bit_log', to_console=True)
 
 def get_driver(id: str) -> webdriver.Chrome:
     """获取Chrome驱动实例"""
+
     res = bit_api.openBrowser(id)
+    if res.get('success') == False:
+        logger.error(f"get_driver: {res}")
+        return None
     driver_path = res['data']['driver']
     debugger_address = res['data']['http']
     
@@ -23,7 +27,6 @@ def get_driver(id: str) -> webdriver.Chrome:
     chrome_options = Options()
     chrome_options.add_experimental_option("debuggerAddress", debugger_address)
     service = Service(executable_path=driver_path)
-    
     return webdriver.Chrome(service=service, options=chrome_options)
 
 def switch_to_metamask_tab(driver: webdriver.Chrome) -> bool:
@@ -84,6 +87,9 @@ def allinone(id: str, seed_phrase: str, password: str) -> None:
     """执行完整的MetaMask设置流程"""
     try:
         driver = get_driver(id)
+        if driver == None:
+            logger.error(f"Driver not found")
+            return
         logger.info(f"Driver acquired successfully, waiting 5 seconds")
         time.sleep(5)
 
