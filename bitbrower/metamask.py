@@ -70,6 +70,14 @@ def metamask_setup(driver: webdriver.Chrome, seed_phrase, password):
     except Exception as e:
         print(f"错误 {e}")
 
+def allinone(id, seed_phrase, password):
+    driver = get_driver(id)
+    print(f"{id} 获取driver成功，等待5秒")
+    time.sleep(5)
+    switch_to_metamask_tab(driver)
+    print(f"{id} 切换标签成功")
+    metamask_setup(driver, seed_phrase, password)
+    print(f"{id} 导入metamask成功")
 
 if __name__ == "__main__":
     print("hello")
@@ -77,10 +85,4 @@ if __name__ == "__main__":
     seed_phrase = seed_phrase.replace(' ', '\t\t')
     password = local_config.metamask.get('password')
     id = local_config.selenium.get('id')
-    driver = get_driver(id)
-    print("获取driver成功，等待5秒")
-    time.sleep(5)
-    switch_to_metamask_tab(driver)
-    print("切换标签成功")
-    metamask_setup(driver, seed_phrase, password)
-    print("导入metamask成功")
+    allinone(id, seed_phrase, password)
