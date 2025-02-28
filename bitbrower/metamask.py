@@ -33,10 +33,11 @@ def switch_to_metamask_tab(driver: webdriver.Chrome) -> bool:
             driver.switch_to.window(handle)
             current_url = driver.current_url
             if current_url == 'chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#onboarding/welcome':
-                logger.info(f"Successfully switched to MetaMask tab at index {index}")
+                logger.info(f"Successfully switched to MetaMask Import tab at index {index}")
                 return True
         except Exception as e:
             logger.warning(f"Window {index} ({handle}) has no valid context: {str(e)}")
+    logger.info("Switched to MetaMask Import tab faile")
     return False
 
 def metamask_setup(driver: webdriver.Chrome, seed_phrase: str, password: str) -> None:
@@ -86,9 +87,7 @@ def allinone(id: str, seed_phrase: str, password: str) -> None:
         logger.info(f"Driver acquired successfully, waiting 5 seconds")
         time.sleep(5)
 
-        if not switch_to_metamask_tab(driver):
-            logger.warning(f"MetaMask tab not found")
-        else:
+        if switch_to_metamask_tab(driver):
             logger.info(f"Tab switched successfully")
             formatted_seed = seed_phrase.replace(' ', '\t\t')
             metamask_setup(driver, formatted_seed, password)

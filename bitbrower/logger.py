@@ -3,12 +3,12 @@ import logging
 import os
 from datetime import datetime
 
-def setup_logger(name: str, log_file: str = 'log_1.log', to_console: bool = True) -> logging.Logger:
+def setup_logger(name: str, log_file: str = 'log_default.log', to_console: bool = True) -> logging.Logger:
     """设置日志记录器，可选择是否输出到控制台
     
     Args:
         name: 日志记录器名称
-        log_file: 日志文件名称，默认为 'log_1.log'
+        log_file: 日志文件名称，默认为 'log_default.log'
         to_console: 是否同时输出到控制台，默认为 True
     
     Returns:
@@ -59,7 +59,7 @@ def get_logger(name: str = 'bit_log', log_file: str = 'log_default.log', to_cons
     
     Args:
         name: 日志记录器名称，默认为 'bit_log'
-        log_file: 日志文件名称，默认为 'log_1.log'
+        log_file: 日志文件名称，默认为 'log_default.log'
         to_console: 是否同时输出到控制台，默认为 True
     
     Returns:
