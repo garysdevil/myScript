@@ -1,12 +1,12 @@
 import requests
 import json
-import local_config
+from config import gconfig 
 
 # API 文档: https://doc.bitbrowser.cn/api-jie-kou-wen-dang/liu-lan-qi-jie-kou
 
 # 初始化 session 和 URL
 session = requests.Session()
-url = local_config.bitbrower.get("url", "http://127.0.0.1:54345")
+url = gconfig.bitbrower_url
 
 def bit_list():
     """获取 BitBrowser 窗口列表"""

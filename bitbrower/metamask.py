@@ -108,10 +108,10 @@ def allinone(id: str, seed_phrase: str, password: str) -> None:
 
 # 测试案例
 if __name__ == "__main__":
-    import local_config
+    from config import gconfig 
     logger.info("Starting MetaMask setup process")
-    seed_phrase = local_config.metamask.get('seed_phrase')
-    password = local_config.metamask.get('password')
-    id = local_config.selenium.get('id')
-    allinone(id, seed_phrase, password)
+    mnemonic = gconfig.metamask_mnemonic1
+    password = gconfig.metamask_password
+    id = gconfig.bitbrower_id1
+    allinone(id, mnemonic, password)
     logger.info(f"{id} Process completed")

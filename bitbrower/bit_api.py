@@ -1,11 +1,11 @@
 import requests
-import local_config
+from config import gconfig 
 
 # 官方文档地址，需要科学上网使用
 # http://doc.bitbrowser.cn/api-jie-kou-wen-dang/ben-di-fu-wu-zhi-nan
 
 request = requests.session()
-url = local_config.bitbrower.get("url") or "http://127.0.0.1:54345"
+url = gconfig.bitbrower_url
 
 # import psutil
 # def get_bitbrower_url():
@@ -155,10 +155,39 @@ def deleteBrowser(id):  # 删除窗口
     res = request.post(f"{url}/browser/delete", json=headers).json()
     return res
 
+def updateProxy(id, proxy): # 更新窗口代理
+    if proxy == "":
+        # 不设置代理
+        headers = {'ids': [id],
+                "ipCheckService":"ip-api",
+                "proxyMethod":2,
+                "proxyType":"noproxy"
+                }
+    else:
+        proxy_temp = proxy.split(":")
+        host = proxy_temp[0]
+        port = proxy_temp[1]
+        proxyUserName = proxy_temp[2]
+        proxyPassword = proxy_temp[3]
+        # 设置代理socket5
+        headers = {'ids': [id],
+                "ipCheckService":"ip-api",
+                "proxyMethod":2,
+                "proxyType":"socks5",
+                "host":host,
+                "port":port,
+                "proxyUserName":proxyUserName,
+                "proxyPassword":proxyPassword,
+                }
+    res = request.post(f"{url}/browser/proxy/update", json=headers).json()
+    return res
 
 
 if __name__ == '__main__':
+    # 创建或者更新窗口
     res = createOrUpdateBrowser()
-    print("createOrUpdateBrowser() res:",res)
-    browserId = res['data']['id']
-    print("browserId:",browserId)
+    print("createOrUpdateBrowser res:",res)
+
+    # 更新窗口代理
+    # res = updateProxy('d6515786c8054ec69fcbab56a758a440','IP:端口:账号:密码')
+    # print("updateProxy res:",res)
