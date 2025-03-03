@@ -1,14 +1,13 @@
 # logger.py
 import logging
 import os
-from datetime import datetime
 
-def setup_logger(name: str, log_file: str = 'log_default.log', to_console: bool = True) -> logging.Logger:
+def setup_logger(name: str, log_file: str = 'gdefault.log', to_console: bool = True) -> logging.Logger:
     """设置日志记录器，可选择是否输出到控制台
     
     Args:
         name: 日志记录器名称
-        log_file: 日志文件名称，默认为 'log_default.log'
+        log_file: 日志文件名称，默认为 'gdefault.log'
         to_console: 是否同时输出到控制台，默认为 True
     
     Returns:
@@ -23,7 +22,7 @@ def setup_logger(name: str, log_file: str = 'log_default.log', to_console: bool 
     
     # 创建logger
     logger = logging.getLogger(name)
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
     
     # 如果已经有handler，就先清除
     if logger.handlers:
@@ -31,7 +30,7 @@ def setup_logger(name: str, log_file: str = 'log_default.log', to_console: bool 
     
     # 创建文件handler
     file_handler = logging.FileHandler(log_path)
-    file_handler.setLevel(logging.INFO)
+    file_handler.setLevel(logging.DEBUG)
     
     # 定义日志格式
     formatter = logging.Formatter(
@@ -54,12 +53,12 @@ def setup_logger(name: str, log_file: str = 'log_default.log', to_console: bool 
     
     return logger
 
-def get_logger(name: str = 'bit_log', log_file: str = 'log_default.log', to_console: bool = True) -> logging.Logger:
+def get_logger(name: str = 'bit_log', log_file: str = 'gdefault.log', to_console: bool = True) -> logging.Logger:
     """获取全局唯一的logger实例
     
     Args:
         name: 日志记录器名称，默认为 'bit_log'
-        log_file: 日志文件名称，默认为 'log_default.log'
+        log_file: 日志文件名称，默认为 'gdefault.log'
         to_console: 是否同时输出到控制台，默认为 True
     
     Returns:

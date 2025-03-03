@@ -9,7 +9,7 @@ import bit_api
 from logger import get_logger
 
 # 初始化 logger，默认同时输出到文件和控制台
-logger = get_logger('bit_log', to_console=True)
+logger = get_logger('bit_log', log_file='metamask.log', to_console=True)
 
 def get_driver(id: str) -> webdriver.Chrome:
     """获取Chrome驱动实例"""
@@ -21,7 +21,7 @@ def get_driver(id: str) -> webdriver.Chrome:
     driver_path = res['data']['driver']
     debugger_address = res['data']['http']
     
-    logger.info(f"Initializing driver - ID: {id}, Path: {driver_path}, Address: {debugger_address}")
+    logger.debug(f"Initializing driver - ID: {id}, Path: {driver_path}, Address: {debugger_address}")
     
     chrome_options = Options()
     chrome_options.add_experimental_option("debuggerAddress", debugger_address)
@@ -38,8 +38,8 @@ def switch_to_metamask_tab(driver: webdriver.Chrome) -> bool:
                 logger.info(f"Successfully switched to MetaMask Import tab at index {index}")
                 return True
         except Exception as e:
-            # logger.warning(f"Window {index} ({handle}) has no valid context: {str(e)}")
-            logger.warning(f"Window {index} ({handle}) has no valid context")
+            # logger.info(f"Window {index} ({handle}) has no valid context: {str(e)}")
+            logger.info(f"Window {index} ({handle}) has no valid context")
     logger.info("Switched to MetaMask Import tab faile, myabe it is imorted already")
     return False
 
@@ -57,8 +57,8 @@ def metamask_setup(driver: webdriver.Chrome, seed_phrase: str, password: str) ->
         time.sleep(1)
 
         # 输入助记词
-        driver.find_element(By.XPATH, '//*[@id="import-srp__srp-word-0"]').send_keys(seed_phrase) # 导入助记词
-        driver.find_element(By.XPATH, '//button[@data-testid="import-srp-confirm"]').click() # 点击按钮 确认私钥助记词
+        driver.find_element(By.XPATH, '//*[@id="import-srp__srp-word-0"]').send_keys(seed_phrase) # 输入助记词
+        driver.find_element(By.XPATH, '//button[@data-testid="import-srp-confirm"]').click() # 点击按钮 确认助记词
         time.sleep(1)
         
         # 设置密码
