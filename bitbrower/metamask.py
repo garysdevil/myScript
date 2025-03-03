@@ -40,7 +40,7 @@ def switch_to_metamask_tab(driver: webdriver.Chrome) -> bool:
         except Exception as e:
             # logger.info(f"Window {index} ({handle}) has no valid context: {str(e)}")
             logger.info(f"Window {index} ({handle}) has no valid context")
-    logger.info("Switched to MetaMask Import tab faile, myabe it is imorted already")
+    logger.warning("Switched to MetaMask Import tab faile, myabe it is imorted already")
     return False
 
 def metamask_setup(driver: webdriver.Chrome, seed_phrase: str, password: str) -> None:
