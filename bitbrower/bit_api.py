@@ -1,5 +1,5 @@
 import requests
-from configs import local_config
+import local_config
 
 # 官方文档地址，需要科学上网使用
 # http://doc.bitbrowser.cn/api-jie-kou-wen-dang/ben-di-fu-wu-zhi-nan

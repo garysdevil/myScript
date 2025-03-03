@@ -5,7 +5,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 
-from configs import local_config
 import bit_api
 from logger import get_logger
 
@@ -32,14 +31,15 @@ def get_driver(id: str) -> webdriver.Chrome:
 def switch_to_metamask_tab(driver: webdriver.Chrome) -> bool:
     """切换到MetaMask标签页"""
     for index, handle in enumerate(driver.window_handles):
-        try:
+        try:  
             driver.switch_to.window(handle)
             current_url = driver.current_url
             if current_url == 'chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#onboarding/welcome':
                 logger.info(f"Successfully switched to MetaMask Import tab at index {index}")
                 return True
         except Exception as e:
-            logger.warning(f"Window {index} ({handle}) has no valid context: {str(e)}")
+            # logger.warning(f"Window {index} ({handle}) has no valid context: {str(e)}")
+            logger.warning(f"Window {index} ({handle}) has no valid context")
     logger.info("Switched to MetaMask Import tab faile")
     return False
 
@@ -94,7 +94,8 @@ def allinone(id: str, seed_phrase: str, password: str) -> None:
         time.sleep(5)
 
         if switch_to_metamask_tab(driver):
-            logger.info(f"Tab switched successfully")
+            logger.info(f"Tab switched successfully, waiting 1 seconds")
+            time.sleep(1)
             formatted_seed = seed_phrase.replace(' ', '\t\t')
             metamask_setup(driver, formatted_seed, password)
             logger.info(f"MetaMask imported successfully")
@@ -105,8 +106,9 @@ def allinone(id: str, seed_phrase: str, password: str) -> None:
         bit_api.closeBrowser(id)
         logger.info(f"Browser closed successfully")
 
-# 示例使用
+# 测试案例
 if __name__ == "__main__":
+    import local_config
     logger.info("Starting MetaMask setup process")
     seed_phrase = local_config.metamask.get('seed_phrase')
     password = local_config.metamask.get('password')

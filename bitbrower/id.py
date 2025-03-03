@@ -1,6 +1,6 @@
 import requests
 import json
-from configs import local_config
+import local_config
 
 # API 文档: https://doc.bitbrowser.cn/api-jie-kou-wen-dang/liu-lan-qi-jie-kou
 

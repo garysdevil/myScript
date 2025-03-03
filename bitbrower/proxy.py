@@ -4,7 +4,7 @@ import time
 import random
 import fileinput
 import myjs.bitbrower.gutils as gutils
-from configs import local_config
+import local_config
 # https:#doc.bitbrowser.cn/api-jie-kou-wen-dang/liu-lan-qi-jie-kou
 
 session = requests.session()
