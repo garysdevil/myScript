@@ -27,7 +27,7 @@ def createOrUpdateBrowser():  # 创建或者更新窗口
     headers = {
         # 'id': '2c9c29a2801851fe01801d5c64c600b2', # 有值时为修改，无值是添加
         # 'groupId': '2c996b378054663b01805a69f0344410', # 群组ID，绑定群组时传入，如果登录的是子账号，则必须赋值，否则会自动分配到主账户下面去
-        'platform': 'https:#www.facebook.com',  # 账号平台
+        'platform': 'https://www.facebook.com',  # 账号平台
         'platformIcon': 'facebook',  # 取账号平台的 hostname 或者设置为other
         'url': '',  # 打开的url，多个用,分开
         'name': 'google',  # 窗口名称
@@ -53,7 +53,7 @@ def createOrUpdateBrowser():  # 创建或者更新窗口
         'isDynamicIpChangeIp': True,  # 提取IP方式，参考文档
         'isGlobalProxyInfo': False,  # 提取IP设置，参考文档
         'isIpv6': False,  # 是否是IP6
-        'syncTabs': True,  # 同步标签页
+        'syncTabs': False,  # 同步标签页
         'syncCookies': True,  # 同步Cookie
         'syncIndexedDb': False,  # 同步IndexedDB
         'syncLocalStorage': False,  # 同步 Local Storage
@@ -77,7 +77,7 @@ def createOrUpdateBrowser():  # 创建或者更新窗口
         'muteAudio': False,  # 禁止播放声音
         'stopWhileNetError': False,  # 网络不通停止打开
         "browserFingerPrint": {
-            'coreVersion': '104',  # 内核版本，默认104，可选92
+            'coreVersion': '126',  # 内核版本，默认104
             'ostype': 'PC',  # 操作系统平台 PC | Android | IOS
             'os': 'Win32',  # 为navigator.platform值 Win32 | Linux i686 | Linux armv7l | MacIntel，当ostype设置为IOS时，设置os为iPhone，ostype为Android时，设置为 Linux i686 | | Linux armv7l
             'version': '',  # 浏览器版本，不填随机

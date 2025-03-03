@@ -12,7 +12,7 @@ def bit_list():
     """获取 BitBrowser 窗口列表"""
     payload = {
         "page": 0,
-        "pageSize": 25
+        "pageSize": 100
     }
     response = session.post(f"{url}/browser/list", json=payload)
     response.raise_for_status()  # 检查请求是否成功

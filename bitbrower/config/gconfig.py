@@ -9,6 +9,9 @@ config.read('local/config.ini')
 bitbrower_url = config['bitbrower']['url']
 metamask_password =  config['metamask']['password']
 
+operation_seqstart = config.getint('operation','seqstart')
+operation_seqend = config.getint('operation','seqend')
+
 bitbrower_id1 = config['bitbrower']['id1']
 metamask_mnemonic1 = config['metamask']['mnemonic1']
 
@@ -17,4 +20,5 @@ metamask_mnemonic1 = config['metamask']['mnemonic1']
 
 print("========================================")
 print(f"bitbrower_url: {bitbrower_url}\nmetamas_password: {metamask_password}")
+print(f"seqstart: {operation_seqstart}\nseqend: {operation_seqend}")
 print("========================================")
