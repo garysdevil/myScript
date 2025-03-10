@@ -1,0 +1,26 @@
+body {
+    width: 250px;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+  }
+  
+  h3 {
+    margin: 0 0 10px;
+    color: #444;
+  }
+  
+  p {
+    margin: 5px 0;
+  }
+  
+  button {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }

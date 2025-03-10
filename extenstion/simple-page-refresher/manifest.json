@@ -1,0 +1,15 @@
+{
+    "manifest_version": 3,
+    "name": "Simple Page Refresher",
+    "version": "1.0",
+    "description": "Displays the current page title and refreshes the page.",
+    "permissions": [
+      "activeTab"
+    ],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "icon16.png"
+      }
+    }
+  }
