@@ -3,35 +3,28 @@ import fs from 'fs';
 import * as bip39 from 'bip39';
 
 // 生成一个钱包，返回钱包的地址，私钥，助记词
-const create12WordsEVMWallet = (id) => {
-    // 生成钱包 方式一
-    // let privateKey = ethers.utils.randomBytes(32) // 生成32个随机字节
-    // // console.log(Buffer.from(privateKey).toString('hex')) // 转成16进制字符串
-    // let wallet = new ethers.Wallet(privateKey)
+const createEVMWallet = (id, entropy = 128) => {
+    // // 生成钱包 方式一 没有助记词
+    // let privateKey = ethers.utils.randomBytes(32); // 生成32个随机字节
+    // // console.log(Buffer.from(privateKey).toString('hex')); // 转成16进制字符串
+    // let wallet = new ethers.Wallet(privateKey);
 
-    // 生成钱包 方式二
-    const wallet = ethers.Wallet.createRandom();
 
-    // 返回钱包地址和私钥
-    const { address } = wallet;
-    const private_key = wallet.privateKey;
-    const { mnemonic } = wallet;
-    const { phrase } = wallet.mnemonic;
-    const json = JSON.stringify({
-        id, phrase, address, private_key,
-    });
-    return json;
-};
+    // // 生成钱包 方式二 不支持定义助记词的位数
+    // const wallet = ethers.Wallet.createRandom();
+    // const mnemonic = wallet.mnemonic.phrase;
 
-const create24WordsEVMWallet = (id) => {
+    // 生成钱包 方式三
     // 生成24位助记词
-    const mnemonic = bip39.generateMnemonic(256); // 256位熵对应24个助记词
+    const mnemonic = bip39.generateMnemonic(entropy); // 128位熵对应12个助记词，256位熵对应24个助记词
     // 从助记词创建钱包
     const wallet = ethers.Wallet.fromMnemonic(mnemonic);
-    const { address } = wallet;
-    const private_key = wallet.privateKey;
+
+    // 返回钱包地址和私钥
+    const { address, privateKey } = wallet;
+    // const private_key = wallet.privateKey;
     const json = JSON.stringify({
-        id, address, private_key, mnemonic,
+        id, mnemonic, address, private_key: privateKey,
     });
     return json;
 };
@@ -40,7 +33,7 @@ const create24WordsEVMWallet = (id) => {
 const generateMultiEthWallet = (num, path) => {
     fs.writeFileSync(path, '[');
     for (let i = 0; i < num; i += 1) {
-        const wallet_json_str = create12WordsEVMWallet();
+        const wallet_json_str = createEVMWallet();
         // console.log(wallet_json_str);
         fs.appendFileSync(path, wallet_json_str);
         if (i < num - 1) {
@@ -55,7 +48,7 @@ const generateMultiEthWallet = (num, path) => {
 // console.log("address",data_arr_obj[0].address)
 // console.log("private_key",data_arr_obj[0].private_key)
 
-export { create12WordsEVMWallet, create24WordsEVMWallet, generateMultiEthWallet };
+export { createEVMWallet, generateMultiEthWallet };
 
 // BigNumber 转为
 // toHexString() → String // Returns the value of BigNumber as a base-16, 0x-prefixed DataHexString.
