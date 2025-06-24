@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "scripts": {
+    "query:dxterminal": "node start.js dxterminal"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "graphql-request": "^7.2.0"
+  }
+}
