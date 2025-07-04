@@ -1,8 +1,7 @@
-import util from 'util';
 import { fetchSubgraphData } from './query.js';
 
 // 获取命令行参数
-const name = process.argv[2];
+const name = 'dxterminal';
 
 // 映射命令行输入到 Subgraph 名称
 const nameMap = {
@@ -28,15 +27,8 @@ if (!subgraphName) {
 (async () => {
   try {
     const results = await fetchSubgraphData(subgraphName);
-    
-    // 详细打印所有结果，仅依赖 results
-    results.forEach(({ name, description, data, index }, i) => {
-      console.log(
-        `Data from ${name} (${description}, Subgraph ${index + 1}):`,
-        util.inspect(data, { showHidden: false, depth: null, colors: true })
-      );
-    });
-    console.log('Query completed successfully:', results);
+    console.log(results[0].data.transfers);
+    console.log(results[0].data.transfers.length);
   } catch (error) {
     console.error('Query failed:', error);
   }
